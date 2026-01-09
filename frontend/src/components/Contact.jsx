@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
-import { photographerInfo } from '../data/mockData';
+import React, { useState, useEffect } from 'react';
+import { photographerInfo as mockInfo } from '../data/mockData';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const Contact = () => {
   const { toast } = useToast();
+  const [photographerInfo, setPhotographerInfo] = useState(mockInfo);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,6 +19,19 @@ const Contact = () => {
     message: ''
   });
 
+  useEffect(() => {
+    fetchPhotographerInfo();
+  }, []);
+
+  const fetchPhotographerInfo = async () => {
+    try {
+      const response = await axios.get(`${API}/photographer-info`);
+      setPhotographerInfo(response.data);
+    } catch (error) {
+      console.error('Error fetching photographer info:', error);
+    }
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -21,26 +39,33 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Mock form submission
-    console.log('Form submitted:', formData);
-    
-    toast({
-      title: "Message sent successfully!",
-      description: "Thank you for your inquiry. I'll get back to you within 24 hours.",
-    });
+    try {
+      await axios.post(`${API}/contact`, formData);
+      
+      toast({
+        title: "Message sent successfully!",
+        description: "Thank you for your inquiry. I'll get back to you within 24 hours.",
+      });
 
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      service: '',
-      date: '',
-      message: ''
-    });
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: '',
+        date: '',
+        message: ''
+      });
+    } catch (error) {
+      toast({
+        title: "Error sending message",
+        description: "Please try again or contact directly via email.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (

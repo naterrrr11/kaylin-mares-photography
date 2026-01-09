@@ -1,8 +1,27 @@
-import React from 'react';
-import { services } from '../data/mockData';
+import React, { useState, useEffect } from 'react';
+import { services as mockServices } from '../data/mockData';
 import { Check } from 'lucide-react';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const Services = () => {
+  const [services, setServices] = useState(mockServices);
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get(`${API}/services`);
+      setServices(response.data);
+    } catch (error) {
+      console.error('Error fetching services:', error);
+    }
+  };
+
   return (
     <section id="services" className="section-spacing-large" style={{ backgroundColor: 'var(--color-gray-100)' }}>
       <div className="container-photography">
