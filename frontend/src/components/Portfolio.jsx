@@ -1,14 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { portfolioImages, categories } from '../data/mockData';
 import { ZoomIn } from 'lucide-react';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [lightboxImage, setLightboxImage] = useState(null);
+  const [images, setImages] = useState([]);
+  const [categories, setCategories] = useState(['All']);
+
+  useEffect(() => {
+    fetchPortfolio();
+  }, []);
+
+  const fetchPortfolio = async () => {
+    try {
+      const response = await axios.get(`${API}/portfolio`);
+      setImages(response.data);
+      
+      // Extract unique categories
+      const uniqueCategories = ['All', ...new Set(response.data.map(img => img.category))];
+      setCategories(uniqueCategories);
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
+      // Fallback to mock data
+      setImages(portfolioImages);
+    }
+  };
 
   const filteredImages = selectedCategory === 'All' 
-    ? portfolioImages 
-    : portfolioImages.filter(img => img.category === selectedCategory);
+    ? images 
+    : images.filter(img => img.category === selectedCategory);
 
   return (
     <section id="portfolio" className="section-spacing-large" style={{ backgroundColor: 'var(--color-gray-100)' }}>

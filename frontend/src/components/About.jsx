@@ -1,8 +1,27 @@
-import React from 'react';
-import { photographerInfo, aboutImage } from '../data/mockData';
+import React, { useState, useEffect } from 'react';
+import { photographerInfo as mockInfo, aboutImage } from '../data/mockData';
 import { Camera, Award, Users, Heart } from 'lucide-react';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const About = () => {
+  const [photographerInfo, setPhotographerInfo] = useState(mockInfo);
+
+  useEffect(() => {
+    fetchPhotographerInfo();
+  }, []);
+
+  const fetchPhotographerInfo = async () => {
+    try {
+      const response = await axios.get(`${API}/photographer-info`);
+      setPhotographerInfo(response.data);
+    } catch (error) {
+      console.error('Error fetching photographer info:', error);
+    }
+  };
+
   const stats = [
     { icon: <Camera size={32} />, value: '500+', label: 'Projects Completed' },
     { icon: <Award size={32} />, value: '8+', label: 'Years Experience' },
