@@ -8,6 +8,8 @@ import Services from './components/Services';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import AdminLogin from './pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
 import { Toaster } from './components/ui/sonner';
 import './styles/photography.css';
 import './App.css';
@@ -34,8 +36,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </div>
   );
 }
