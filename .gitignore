@@ -40,3 +40,7 @@ Thumbs.db
 
 # Export packages (optional - remove if you want to include)
 export_package/
+-e 
+# Environment files
+*.env
+*.env.*
