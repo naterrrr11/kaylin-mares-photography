@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { photographerInfo } from '../data/mockData';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,7 +36,7 @@ const Header = () => {
             onClick={() => scrollToSection('hero')}
             style={{ color: isScrolled ? 'var(--color-primary)' : 'var(--color-white)' }}
           >
-            Alex Morgan
+            {photographerInfo.name}
           </div>
 
           {/* Desktop Navigation */}
