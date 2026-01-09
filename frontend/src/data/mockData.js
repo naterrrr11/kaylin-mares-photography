@@ -1,10 +1,10 @@
 // Mock data for Photography Website
 
 export const photographerInfo = {
-  name: "Alex Morgan",
+  name: "Kaylin Mares",
   tagline: "Capturing Life's Beautiful Moments",
   bio: "With over 8 years of experience in professional photography, I specialize in creating timeless images that tell your unique story. My passion lies in capturing authentic emotions and genuine moments that you'll treasure forever.",
-  email: "hello@alexmorgan.photo",
+  email: "hello@kaylinmares.photo",
   phone: "+1 (555) 123-4567",
   location: "Los Angeles, CA"
 };
